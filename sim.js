@@ -20,9 +20,8 @@ var printf = mod_extsprintf.printf;
  * Simulation parameters
  */
 
-// var nmilliseconds = 120000;	/* 2 minute simulation */
-var nmilliseconds = 100;	/* 2 minute simulation */
-var nclients = 1000;		/* 1000 clients */
+var nmilliseconds = 600000;	/* 2 minute simulation */
+var nclients = 10000;		/* 10,000 clients */
 
 /*
  * This object defines the servers that exist.
@@ -65,7 +64,7 @@ function main()
  */
 function simInit(ss)
 {
-	var i, j;
+	var i, j, k;
 	var sc;
 
 	/*
@@ -83,11 +82,10 @@ function simInit(ss)
 	/*
 	 * Create a server state object for each server.
 	 */
-	for (i = 0; i < serverConfigs.length; i++) {
+	for (i = 0, j = 0; i < serverConfigs.length; i++) {
 		sc = serverConfigs[i];
-		for (j = 0; j < sc.sc_count; j++) {
+		for (k = 0; k < sc.sc_count; j++, k++) {
 			ss.s_servers.push({
-			    's_which': j,
 			    's_name': 'server_' + j,
 			    's_latency': sc.sc_latency,
 			    's_ncompleted': 0
@@ -145,14 +143,20 @@ function simTick(ss)
 
 function simReport(ss)
 {
-	var s;
+	var s, sum, rps;
 
+	sum = 0;
 	for (i = 0; i < ss.s_servers.length; i++) {
 		s = ss.s_servers[i];
-		printf('%-9s %9d requests (%4d rps)\n',
+		sum += s.s_ncompleted;
+		printf('%-9s %10d requests (%4d rps)\n',
 		    s.s_name, s.s_ncompleted,
 		    Math.round(1000 * s.s_ncompleted / nmilliseconds));
 	}
+
+	rps = 1000 * sum / nmilliseconds;
+	printf('overall: %11d requests (%6d rps, expect %d rps per server)\n',
+	    sum, rps, rps / ss.s_servers.length);
 }
 
 main();
