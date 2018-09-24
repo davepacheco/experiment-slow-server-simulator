@@ -20,7 +20,7 @@ var printf = mod_extsprintf.printf;
  * Simulation parameters
  */
 
-var nmilliseconds = 600000;	/* 2 minute simulation */
+var nmilliseconds = 600000;	/* 10 minute simulation */
 var nclients = 10000;		/* 10,000 clients */
 
 /*

@@ -1,0 +1,11 @@
+{
+	"name": "sim",
+	"version": "1.0.0",
+	"description": "simulate the behavior of a slow server in a simple distributed system",
+	"dependencies": {
+	  "assert-plus": "^1.0.0",
+	  "extsprintf": "^1.4.0"
+	},
+	"author": "David Pacheco <dap@joyent.com>",
+	"license": "MIT"
+}
