@@ -67,6 +67,10 @@ function simInit(ss)
 	var i, j, k;
 	var sc;
 
+	printf('simulated time:           %d ms\n', nmilliseconds);
+	printf('total client concurrency: %d\n', nclients);
+	printf('servers:\n');
+
 	/*
 	 * Create a client state object for each client.
 	 */
@@ -84,6 +88,11 @@ function simInit(ss)
 	 */
 	for (i = 0, j = 0; i < serverConfigs.length; i++) {
 		sc = serverConfigs[i];
+		printf('    %2d server%s that complete%s requests with ' +
+		    'latency %d ms (starting with %s)\n',
+		    sc.sc_count, sc.sc_count == 1 ? '' : 's',
+		    sc.sc_count == 1 ? 's' : '',
+		    sc.sc_latency, JSON.stringify('server_' + j));
 		for (k = 0; k < sc.sc_count; j++, k++) {
 			ss.s_servers.push({
 			    's_name': 'server_' + j,
@@ -92,6 +101,7 @@ function simInit(ss)
 			});
 		}
 	}
+	printf('\n');
 }
 
 /*
@@ -149,7 +159,7 @@ function simReport(ss)
 	for (i = 0; i < ss.s_servers.length; i++) {
 		s = ss.s_servers[i];
 		sum += s.s_ncompleted;
-		printf('%-9s %10d requests (%4d rps)\n',
+		printf('%-9s %10d requests (%6d rps)\n',
 		    s.s_name, s.s_ncompleted,
 		    Math.round(1000 * s.s_ncompleted / nmilliseconds));
 	}
