@@ -1,5 +1,5 @@
 {
-	"name": "sim",
+	"name": "slow-server-simulator",
 	"version": "1.0.0",
 	"description": "simulate the behavior of a slow server in a simple distributed system",
 	"dependencies": {
@@ -7,5 +7,6 @@
 	  "extsprintf": "^1.4.0"
 	},
 	"author": "David Pacheco <dap@joyent.com>",
+	"private": true,
 	"license": "MIT"
 }
